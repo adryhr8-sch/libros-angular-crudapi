@@ -1,10 +1,10 @@
+import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
 import Libro from '../interfaces/libro';
 import LibroId from '../interfaces/libro-id';
 import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LibrosApi {
   private url: string = 'http://127.0.0.1:8000/api/books/';
   private http = inject(HttpClient);

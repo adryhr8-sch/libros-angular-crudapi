@@ -9,7 +9,7 @@ import LibroId from '../../interfaces/libro-id';
 })
 export class LibroTarjeta {
   libro = input.required<LibroId>();
-  seleccionado = input(false);
+  seleccionado = input<boolean>(false);
   seleccionar = output<LibroId>();
   eliminar = output<number>();
 }
