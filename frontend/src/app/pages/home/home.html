@@ -1,0 +1,48 @@
+<section class="biblioteca">
+  <header class="encabezado">
+    <p class="eyebrow">Tu espacio de lectura</p>
+    <h1>Biblioteca personal</h1>
+    <p>Organiza tus libros y mantén tu colección al día.</p>
+  </header>
+
+  <div class="contenido">
+    <section class="coleccion" aria-labelledby="coleccion-titulo">
+      <div class="seccion-titulo">
+        <div>
+          <p class="eyebrow">Colección</p>
+          <h2 id="coleccion-titulo">Tus libros</h2>
+        </div>
+        <span class="contador">{{ libros.length }} libros</span>
+      </div>
+
+      @if (errorMessage) {
+        <p class="mensaje-error" role="alert">{{ errorMessage }}</p>
+      }
+
+      @if (libros.length === 0) {
+        <div class="vacio">
+          <h3>Aún no hay libros</h3>
+          <p>Agrega tu primer libro con el formulario.</p>
+        </div>
+      } @else {
+        <div class="libros-grid">
+          @for (libro of libros; track libro.id) {
+            <app-libro-tarjeta
+              [libro]="libro"
+              [seleccionado]="libroSeleccionado?.id === libro.id"
+              (seleccionar)="seleccionarLibro($event)"
+              (eliminar)="eliminarLibro($event)"
+            />
+          }
+        </div>
+      }
+    </section>
+
+    <aside class="panel-formulario" aria-label="Formulario de libro">
+      <app-formulario
+        [libro]="libroSeleccionado"
+        (guardado)="guardarLibro($event)"
+      />
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<article class="tarjeta" [class.seleccionada]="seleccionado()">
+  <button
+    class="contenido-tarjeta"
+    type="button"
+    (click)="seleccionar.emit(libro())"
+    [attr.aria-pressed]="seleccionado()"
+  >
+    <span class="etiqueta">LIBRO</span>
+    <h3>{{ libro().title }}</h3>
+    <p>{{ libro().author }}</p>
+    <span class="detalles">{{ libro().published_year }} <span aria-hidden="true">·</span> {{ libro().pages }} páginas</span>
+    <span class="accion-editar">Seleccionar para editar</span>
+  </button>
+  <button
+    class="boton-eliminar"
+    type="button"
+    [attr.aria-label]="'Eliminar ' + libro().title"
+    (click)="eliminar.emit(libro().id)"
+  >
+    Eliminar
+  </button>
+</article>

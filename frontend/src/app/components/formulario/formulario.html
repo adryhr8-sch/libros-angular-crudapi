@@ -1,0 +1,85 @@
+<form [formGroup]="LibroForm" (ngSubmit)="onSubmit()">
+  <div class="formulario-cabecera">
+    <p class="eyebrow">{{ libro() ? 'Editar libro' : 'Nuevo libro' }}</p>
+    <h2>{{ libro() ? 'Actualiza tu libro' : 'Añade a tu biblioteca' }}</h2>
+    <p class="descripcion">Completa los datos para mantener tu colección organizada.</p>
+  </div>
+
+  @if (libro()) {
+    <div class="campo">
+      <label for="id">ID del libro</label>
+      <input id="id" type="text" [value]="libro()?.id" disabled />
+    </div>
+  }
+
+  <div class="campo">
+    <label for="title">Título</label>
+    <input id="title" type="text" formControlName="title" placeholder="Ej. Cien años de soledad" maxlength="200" />
+    @if (LibroForm.controls.title.touched && LibroForm.controls.title.invalid) {
+      <small class="validacion">
+        @if (LibroForm.controls.title.hasError('required') || LibroForm.controls.title.hasError('textoNoVacio')) {
+          El título es obligatorio.
+        } @else if (LibroForm.controls.title.hasError('minlength')) {
+          Escribe al menos 2 caracteres.
+        } @else if (LibroForm.controls.title.hasError('maxlength')) {
+          El título no puede superar los 200 caracteres.
+        }
+      </small>
+    }
+  </div>
+
+  <div class="campo">
+    <label for="author">Autor</label>
+    <input id="author" type="text" formControlName="author" placeholder="Ej. Gabriel García Márquez" maxlength="100" />
+    @if (LibroForm.controls.author.touched && LibroForm.controls.author.invalid) {
+      <small class="validacion">
+        @if (LibroForm.controls.author.hasError('required') || LibroForm.controls.author.hasError('textoNoVacio')) {
+          El autor es obligatorio.
+        } @else if (LibroForm.controls.author.hasError('minlength')) {
+          Escribe al menos 2 caracteres.
+        } @else if (LibroForm.controls.author.hasError('maxlength')) {
+          El autor no puede superar los 100 caracteres.
+        }
+      </small>
+    }
+  </div>
+
+  <div class="campos-dobles">
+    <div class="campo">
+      <label for="published_year">Año de publicación</label>
+      <input id="published_year" type="number" formControlName="published_year" min="1" [max]="currentYear" placeholder="1967" />
+      @if (LibroForm.controls.published_year.touched && LibroForm.controls.published_year.invalid) {
+        <small class="validacion">
+          @if (LibroForm.controls.published_year.hasError('required')) {
+            Indica el año de publicación.
+          } @else if (LibroForm.controls.published_year.hasError('max')) {
+            El año no puede ser futuro.
+          } @else {
+            Usa un año entero válido.
+          }
+        </small>
+      }
+    </div>
+    <div class="campo">
+      <label for="pages">Páginas</label>
+      <input id="pages" type="number" formControlName="pages" min="1" step="1" placeholder="417" />
+      @if (LibroForm.controls.pages.touched && LibroForm.controls.pages.invalid) {
+        <small class="validacion">
+          @if (LibroForm.controls.pages.hasError('required')) {
+            Indica el número de páginas.
+          } @else {
+            Las páginas deben ser un entero mayor que 0.
+          }
+        </small>
+      }
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <p class="mensaje-error" role="alert">{{ errorMessage }}</p>
+  }
+
+  <button class="boton-guardar" type="submit" [disabled]="guardando">
+    {{ guardando ? 'Guardando…' : (libro() ? 'Guardar cambios' : 'Agregar libro') }}
+  </button>
+</form>
