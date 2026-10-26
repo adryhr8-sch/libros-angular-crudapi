@@ -12,21 +12,21 @@
           <p class="eyebrow">Colección</p>
           <h2 id="coleccion-titulo">Tus libros</h2>
         </div>
-        <span class="contador">{{ libros.length }} libros</span>
+        <span class="contador">{{ libros().length }} libros</span>
       </div>
 
       @if (errorMessage) {
         <p class="mensaje-error" role="alert">{{ errorMessage }}</p>
       }
 
-      @if (libros.length === 0) {
+      @if (libros().length === 0) {
         <div class="vacio">
           <h3>Aún no hay libros</h3>
           <p>Agrega tu primer libro con el formulario.</p>
         </div>
       } @else {
         <div class="libros-grid">
-          @for (libro of libros; track libro.id) {
+          @for (libro of libros(); track libro.id) {
             <app-libro-tarjeta
               [libro]="libro"
               [seleccionado]="libroSeleccionado?.id === libro.id"
