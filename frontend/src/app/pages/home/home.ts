@@ -22,7 +22,7 @@ export class Home implements OnInit {
   }
 
   seleccionarLibro(libro: LibroId): void {
-    this.libroSeleccionado.update((li) => li ? null : libro);
+    this.libroSeleccionado.update((li) => libro === li ? null : libro);
   }
 
   guardarLibro(libro: LibroId): void {
