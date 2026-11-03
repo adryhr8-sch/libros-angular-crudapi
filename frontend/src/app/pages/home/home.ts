@@ -14,7 +14,7 @@ export class Home implements OnInit {
   librosapi = inject(LibrosApi);
 
   libros = signal<LibroId[]>([]);
-  libroSeleccionado: LibroId | null = null;
+  libroSeleccionado = signal<LibroId | null>(null);
   errorMessage = '';
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class Home implements OnInit {
   }
 
   seleccionarLibro(libro: LibroId): void {
-    this.libroSeleccionado = libro;
+    this.libroSeleccionado.update((li) => li ? null : libro);
   }
 
   guardarLibro(libro: LibroId): void {
@@ -32,7 +32,7 @@ export class Home implements OnInit {
     } else {
       this.libros.update((a) => a.map((actual) => actual.id === libro.id ? libro : actual));
     }
-    this.libroSeleccionado = null;
+    this.libroSeleccionado.update(() => null);
     this.errorMessage = '';
   }
 
@@ -40,8 +40,8 @@ export class Home implements OnInit {
     this.librosapi.eliminar_libro(id).subscribe({
       next: () => {
         this.libros.update((a) => a.filter((libro) => libro.id !== id));
-        if (this.libroSeleccionado?.id === id) {
-          this.libroSeleccionado = null;
+        if (this.libroSeleccionado()?.id === id) {
+          this.libroSeleccionado.update(() => null);
         }
         this.errorMessage = '';
       },

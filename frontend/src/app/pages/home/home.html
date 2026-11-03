@@ -29,7 +29,7 @@
           @for (libro of libros(); track libro.id) {
             <app-libro-tarjeta
               [libro]="libro"
-              [seleccionado]="libroSeleccionado?.id === libro.id"
+              [seleccionado]="libroSeleccionado()?.id === libro.id"
               (seleccionar)="seleccionarLibro($event)"
               (eliminar)="eliminarLibro($event)"
             />
@@ -40,7 +40,7 @@
 
     <aside class="panel-formulario" aria-label="Formulario de libro">
       <app-formulario
-        [libro]="libroSeleccionado"
+        [libro]="libroSeleccionado()"
         (guardado)="guardarLibro($event)"
       />
     </aside>
